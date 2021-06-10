@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const ClientError = require('../../exceptions/ClientError');
 
 class SongsHandler {
   constructor(service, validator) {
@@ -41,11 +42,21 @@ class SongsHandler {
       response.code(201);
       return response;
     } catch (error) {
+      if (error instanceof ClientError) {
+        const response = h.response({
+          status: 'fail',
+          message: error.message,
+        });
+        response.code(error.statusCode);
+        return response;
+      }
+
       const response = h.response({
         status: 'fail',
-        message: error.message,
+        message: 'Maaf, terjadi kegagalan pada server kami.',
       });
-      response.code(400);
+      response.code(500);
+      console.log(error);
       return response;
     }
   }
@@ -72,11 +83,21 @@ class SongsHandler {
         },
       };
     } catch (error) {
+      if (error instanceof ClientError) {
+        const response = h.response({
+          status: 'fail',
+          message: error.message,
+        });
+        response.code(error.statusCode);
+        return response;
+      }
+
       const response = h.response({
         status: 'fail',
-        message: error.message,
+        message: 'Maaf, terjadi kegagalan pada server kami.',
       });
-      response.code(404);
+      response.code(500);
+      console.log(error);
       return response;
     }
   }
@@ -92,11 +113,21 @@ class SongsHandler {
         message: 'Lagu berhasil diperbarui',
       };
     } catch (error) {
+      if (error instanceof ClientError) {
+        const response = h.response({
+          status: 'fail',
+          message: error.message,
+        });
+        response.code(error.statusCode);
+        return response;
+      }
+
       const response = h.response({
         status: 'fail',
-        message: error.message,
+        message: 'Maaf, terjadi kegagalan pada server kami.',
       });
-      response.code(404);
+      response.code(500);
+      console.log(error);
       return response;
     }
   }
@@ -111,11 +142,21 @@ class SongsHandler {
         message: 'Lagu berhasil dihapus',
       };
     } catch (error) {
+      if (error instanceof ClientError) {
+        const response = h.response({
+          status: 'fail',
+          message: error.message,
+        });
+        response.code(error.statusCode);
+        return response;
+      }
+
       const response = h.response({
         status: 'fail',
-        message: 'Lagu gagal dihapus. Id tidak ditemukan',
+        message: 'Maaf, terjadi kegagalan pada server kami.',
       });
-      response.code(404);
+      response.code(500);
+      console.log(error);
       return response;
     }
   }
