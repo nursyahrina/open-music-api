@@ -18,10 +18,10 @@ class SongsService {
 
     const newSong = {
       title,
-      year,
+      year: parseInt(year, 10),
       performer,
       genre,
-      duration,
+      duration: parseInt(duration, 10),
       id,
       insertedAt,
       updatedAt,
@@ -38,11 +38,11 @@ class SongsService {
     return id;
   }
 
-  getNotes() {
+  getSongs() {
     return this._songs;
   }
 
-  getNoteById(id) {
+  getSongById(id) {
     const song = this._songs.filter((s) => s.id === id)[0];
     if (!song) {
       throw new Error('Lagu tidak ditemukan');
@@ -51,7 +51,7 @@ class SongsService {
     return song;
   }
 
-  editNoteById(id, {
+  editSongById(id, {
     title,
     year,
     performer,
@@ -69,15 +69,15 @@ class SongsService {
     this._songs[index] = {
       ...this._songs[index],
       title,
-      year,
+      year: parseInt(year, 10),
       performer,
       genre,
-      duration,
+      duration: parseInt(duration, 10),
       updatedAt,
     };
   }
 
-  deleteNoteById(id) {
+  deleteSongById(id) {
     const index = this._songs.findIndex((song) => song.id === id);
 
     if (index === -1) {

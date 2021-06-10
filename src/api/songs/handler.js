@@ -1,6 +1,9 @@
+const _ = require('lodash');
+
 class SongsHandler {
-  constructor(service) {
+  constructor(service, validator) {
     this._service = service;
+    this._validator = validator;
 
     this.postSongHandler = this.postSongHandler.bind(this);
     this.getSongsHandler = this.getSongsHandler.bind(this);
@@ -11,6 +14,7 @@ class SongsHandler {
 
   postSongHandler(request, h) {
     try {
+      this._validator.validateSongPayload(request.payload);
       const {
         title = 'untitled',
         year,
@@ -47,11 +51,11 @@ class SongsHandler {
   }
 
   getSongsHandler() {
-    const songs = this._service.getNotes();
+    const songs = this._service.getSongs();
     return {
       status: 'success',
       data: {
-        songs,
+        songs: songs.map((song) => _.pick(song, ['id', 'title', 'performer'])),
       },
     };
   }
@@ -60,7 +64,7 @@ class SongsHandler {
     try {
       const { songId } = request.params;
 
-      const song = this._service.getNoteById(songId);
+      const song = this._service.getSongById(songId);
       return {
         status: 'success',
         data: {
@@ -79,6 +83,7 @@ class SongsHandler {
 
   putSongByIdHandler(request, h) {
     try {
+      this._validator.validateSongPayload(request.payload);
       const { songId } = request.params;
 
       this._service.editSongById(songId, request.payload);
