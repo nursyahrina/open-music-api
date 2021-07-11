@@ -19,4 +19,19 @@ const mapDBToModel = ({
   updatedAt: updated_at,
 });
 
-module.exports = mapDBToModel;
+const mapDBToSimpleAtt = ({
+  id,
+  title,
+  year,
+  performer,
+  genre,
+  duration,
+  inserted_at,
+  updated_at,
+}) => ({
+  id,
+  title,
+  performer,
+});
+
+module.exports = { mapDBToModel, mapDBToSimpleAtt };
