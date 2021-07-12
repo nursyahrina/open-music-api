@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 const ClientError = require('../../exceptions/ClientError');
 
 class SongsHandler {
@@ -45,7 +46,7 @@ class SongsHandler {
     }
   }
 
-  async getSongsHandler() {
+  async getSongsHandler(h) {
     try {
       const songs = await this._service.getSongs();
       return {

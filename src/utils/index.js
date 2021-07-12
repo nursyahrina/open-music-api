@@ -22,12 +22,7 @@ const mapDBToModel = ({
 const mapDBToSimpleAtt = ({
   id,
   title,
-  year,
   performer,
-  genre,
-  duration,
-  inserted_at,
-  updated_at,
 }) => ({
   id,
   title,
