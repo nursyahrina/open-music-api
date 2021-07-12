@@ -27,23 +27,7 @@ class UsersHandler {
       response.code(201);
       return response;
     } catch (error) {
-      if (error instanceof ClientError) {
-        const response = h.response({
-          status: 'fail',
-          message: error.message,
-        });
-        response.code(error.statusCode);
-        return response;
-      }
-
-      // Server ERROR
-      const response = h.response({
-        status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.',
-      });
-      response.code(500);
-      console.log(error);
-      return response;
+      return this.handleError(error, h);
     }
   }
 
@@ -60,23 +44,7 @@ class UsersHandler {
         },
       };
     } catch (error) {
-      if (error instanceof ClientError) {
-        const response = h.response({
-          status: 'fail',
-          message: error.message,
-        });
-        response.code(error.statusCode);
-        return response;
-      }
-
-      // Server ERROR
-      const response = h.response({
-        status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.',
-      });
-      response.code(500);
-      console.log(error);
-      return response;
+      return this.handleError(error, h);
     }
   }
 
@@ -91,24 +59,28 @@ class UsersHandler {
         },
       };
     } catch (error) {
-      if (error instanceof ClientError) {
-        const response = h.response({
-          status: 'fail',
-          message: error.message,
-        });
-        response.code(error.statusCode);
-        return response;
-      }
+      return this.handleError(error, h);
+    }
+  }
 
-      // Server ERROR!
+  // eslint-disable-next-line class-methods-use-this
+  handleError(error, h) {
+    if (error instanceof ClientError) {
       const response = h.response({
-        status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.',
+        status: 'fail',
+        message: error.message,
       });
-      response.code(500);
-      console.error(error);
+      response.code(error.statusCode);
       return response;
     }
+
+    const response = h.response({
+      status: 'fail',
+      message: 'Maaf, terjadi kegagalan pada server kami.',
+    });
+    response.code(500);
+    console.log(error);
+    return response;
   }
 }
 

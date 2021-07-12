@@ -33,22 +33,7 @@ class PlaylistsHandler {
       response.code(201);
       return response;
     } catch (error) {
-      if (error instanceof ClientError) {
-        const response = h.response({
-          status: 'fail',
-          message: error.message,
-        });
-        response.code(error.statusCode);
-        return response;
-      }
-      // SERVER ERROR
-      const response = h.response({
-        status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.',
-      });
-      response.code(500);
-      console.error(error);
-      return response;
+      return this.handleError(error, h);
     }
   }
 
@@ -78,22 +63,7 @@ class PlaylistsHandler {
         message: 'Playlist berhasil dihapus',
       };
     } catch (error) {
-      if (error instanceof ClientError) {
-        const response = h.response({
-          status: 'fail',
-          message: error.message,
-        });
-        response.code(error.statusCode);
-        return response;
-      }
-      // SERVER ERROR
-      const response = h.response({
-        status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.',
-      });
-      response.code(500);
-      console.error(error);
-      return response;
+      return this.handleError(error, h);
     }
   }
 
@@ -113,22 +83,7 @@ class PlaylistsHandler {
         },
       };
     } catch (error) {
-      if (error instanceof ClientError) {
-        const response = h.response({
-          status: 'fail',
-          message: error.message,
-        });
-        response.code(error.statusCode);
-        return response;
-      }
-      // SERVER ERROR
-      const response = h.response({
-        status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.',
-      });
-      response.code(500);
-      console.error(error);
-      return response;
+      return this.handleError(error, h);
     }
   }
 
@@ -150,22 +105,7 @@ class PlaylistsHandler {
       response.code(201);
       return response;
     } catch (error) {
-      if (error instanceof ClientError) {
-        const response = h.response({
-          status: 'fail',
-          message: error.message,
-        });
-        response.code(error.statusCode);
-        return response;
-      }
-      // SERVER ERROR
-      const response = h.response({
-        status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.',
-      });
-      response.code(500);
-      console.error(error);
-      return response;
+      return this.handleError(error, h);
     }
   }
 
@@ -184,23 +124,28 @@ class PlaylistsHandler {
         message: 'Lagu berhasil dihapus dari playlist',
       };
     } catch (error) {
-      if (error instanceof ClientError) {
-        const response = h.response({
-          status: 'fail',
-          message: error.message,
-        });
-        response.code(error.statusCode);
-        return response;
-      }
-      // SERVER ERROR
+      return this.handleError(error, h);
+    }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  handleError(error, h) {
+    if (error instanceof ClientError) {
       const response = h.response({
-        status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.',
+        status: 'fail',
+        message: error.message,
       });
-      response.code(500);
-      console.error(error);
+      response.code(error.statusCode);
       return response;
     }
+
+    const response = h.response({
+      status: 'fail',
+      message: 'Maaf, terjadi kegagalan pada server kami.',
+    });
+    response.code(500);
+    console.log(error);
+    return response;
   }
 }
 
