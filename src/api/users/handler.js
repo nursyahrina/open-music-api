@@ -1,4 +1,4 @@
-const ClientError = require('../../exceptions/ClientError');
+const handleError = require('../../helper/index');
 
 class UsersHandler {
   constructor(service, validator) {
@@ -27,7 +27,7 @@ class UsersHandler {
       response.code(201);
       return response;
     } catch (error) {
-      return this.handleError(error, h);
+      return handleError(error, h);
     }
   }
 
@@ -44,7 +44,7 @@ class UsersHandler {
         },
       };
     } catch (error) {
-      return this.handleError(error, h);
+      return handleError(error, h);
     }
   }
 
@@ -59,28 +59,8 @@ class UsersHandler {
         },
       };
     } catch (error) {
-      return this.handleError(error, h);
+      return handleError(error, h);
     }
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  handleError(error, h) {
-    if (error instanceof ClientError) {
-      const response = h.response({
-        status: 'fail',
-        message: error.message,
-      });
-      response.code(error.statusCode);
-      return response;
-    }
-
-    const response = h.response({
-      status: 'fail',
-      message: 'Maaf, terjadi kegagalan pada server kami.',
-    });
-    response.code(500);
-    console.log(error);
-    return response;
   }
 }
 

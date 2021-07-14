@@ -1,5 +1,4 @@
-/* eslint-disable class-methods-use-this */
-const ClientError = require('../../exceptions/ClientError');
+const handleError = require('../../helper/index');
 
 class SongsHandler {
   constructor(service, validator) {
@@ -42,7 +41,7 @@ class SongsHandler {
       response.code(201);
       return response;
     } catch (error) {
-      return this.handleError(error, h);
+      return handleError(error, h);
     }
   }
 
@@ -56,7 +55,7 @@ class SongsHandler {
         },
       };
     } catch (error) {
-      return this.handleError(error, h);
+      return handleError(error, h);
     }
   }
 
@@ -72,7 +71,7 @@ class SongsHandler {
         },
       };
     } catch (error) {
-      return this.handleError(error, h);
+      return handleError(error, h);
     }
   }
 
@@ -87,7 +86,7 @@ class SongsHandler {
         message: 'Lagu berhasil diperbarui',
       };
     } catch (error) {
-      return this.handleError(error, h);
+      return handleError(error, h);
     }
   }
 
@@ -101,27 +100,8 @@ class SongsHandler {
         message: 'Lagu berhasil dihapus',
       };
     } catch (error) {
-      return this.handleError(error, h);
+      return handleError(error, h);
     }
-  }
-
-  handleError(error, h) {
-    if (error instanceof ClientError) {
-      const response = h.response({
-        status: 'fail',
-        message: error.message,
-      });
-      response.code(error.statusCode);
-      return response;
-    }
-
-    const response = h.response({
-      status: 'fail',
-      message: 'Maaf, terjadi kegagalan pada server kami.',
-    });
-    response.code(500);
-    console.log(error);
-    return response;
   }
 }
 
